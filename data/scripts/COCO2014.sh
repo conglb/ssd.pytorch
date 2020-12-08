@@ -32,8 +32,11 @@ fi
 cd ./images
 echo "Downloading MSCOCO train images ..."
 curl -LO http://images.cocodataset.org/zips/train2014.zip
+rm ../images/train2014.zip
+
 echo "Downloading MSCOCO val images ..."
 curl -LO http://images.cocodataset.org/zips/val2014.zip
+rm ../images/val2014.zip
 
 cd ../
 if [ ! -d annotations]
@@ -45,6 +48,8 @@ fi
 cd ./annotations
 echo "Downloading MSCOCO train/val annotations ..."
 curl -LO http://images.cocodataset.org/annotations/annotations_trainval2014.zip
+rm ./annotations_trainval2014.zip
+
 echo "Finished downloading. Now extracting ..."
 
 # Unzip data
@@ -55,13 +60,7 @@ unzip ../images/val2014.zip -d ../images
 echo "Extracting annotations ..."
 unzip ./annotations_trainval2014.zip
 
-echo "Removing zip files ..."
-rm ../images/train2014.zip
-rm ../images/val2014.zip
-rm ./annotations_trainval2014.zip
-
 echo "Creating trainval35k dataset..."
-
 # Download annotations json
 echo "Downloading trainval35k annotations from S3"
 curl -LO https://s3.amazonaws.com/amdegroot-datasets/instances_trainval35k.json.zip
