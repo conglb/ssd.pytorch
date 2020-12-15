@@ -17,14 +17,14 @@ if sys.version_info[0] == 2:
 else:
     import xml.etree.ElementTree as ET
 
-IL_CLASSES = (  # always index 0
+VOCLITE_CLASSES = (  # always index 0
     'motorbike', 'bicycle', 'seat', 'table', 'parking lot', 'key', 'book', 'package', 'children', 'bottle')
 
 # note: if you used our download scripts, this should be right
-IL_ROOT = osp.join(HOME, "data/il/")
+VOCLITE_ROOT = osp.join(HOME, "data/voclite/")
 
 
-class VOCAnnotationTransform(object):
+class VOCLiteAnnotationTransform(object):
     """Transforms a VOC annotation into a Tensor of bbox coords and label index
     Initilized with a dictionary lookup of classnames to indexes
 
@@ -39,7 +39,7 @@ class VOCAnnotationTransform(object):
 
     def __init__(self, class_to_ind=None, keep_difficult=False):
         self.class_to_ind = class_to_ind or dict(
-            zip(VOC_CLASSES, range(len(VOC_CLASSES))))
+            zip(IL_CLASSES, range(len(IL_CLASSES))))
         self.keep_difficult = keep_difficult
 
     def __call__(self, target, width, height):
@@ -73,7 +73,7 @@ class VOCAnnotationTransform(object):
         return res  # [[xmin, ymin, xmax, ymax, label_ind], ... ]
 
 
-class VOCDetection(data.Dataset):
+class VOCLite(data.Dataset):
     """VOC Detection Dataset Object
 
     input is image, target is annotation
@@ -91,22 +91,22 @@ class VOCDetection(data.Dataset):
     """
 
     def __init__(self, root,
-                 image_sets=[('2007', 'trainval'), ('2012', 'trainval')],
+                 image_sets=['voclite'],
                  transform=None, target_transform=VOCAnnotationTransform(),
-                 dataset_name='VOC0712'):
+                 dataset_name='voclite'):
         self.root = root
         self.image_set = image_sets
         self.transform = transform
         self.target_transform = target_transform
         self.name = dataset_name
-        self._annopath = osp.join('%s', 'Annotations', '%s.xml')
-        self._imgpath = osp.join('%s', 'JPEGImages', '%s.jpg')
+        self._annopath = osp.join('%s', 'annotations', '%s.xml')
+        self._imgpath = osp.join('%s', 'images', '%s.jpg')
+        
         self.ids = list()
-        for (year, name) in image_sets:
-            rootpath = osp.join(self.root, 'VOC' + year)
-            for line in open(osp.join(rootpath, 'ImageSets', 'Main', name + '.txt')):
-                self.ids.append((rootpath, line.strip()))
-
+        rootpath = osp.join(self.root, 'voclite')
+        for line in open(osp.join(rootpath, 'ImageSets', 'Main', 'trainval.txt')):
+            self.ids.append((rootpath, line.strip()))
+        
     def __getitem__(self, index):
         im, gt, h, w = self.pull_item(index)
 
