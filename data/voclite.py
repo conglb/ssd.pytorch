@@ -39,7 +39,7 @@ class VOCLiteAnnotationTransform(object):
 
     def __init__(self, class_to_ind=None, keep_difficult=False):
         self.class_to_ind = class_to_ind or dict(
-            zip(IL_CLASSES, range(len(IL_CLASSES))))
+            zip(VOCLITE_CLASSES, range(len(VOCLITE_CLASSES))))
         self.keep_difficult = keep_difficult
 
     def __call__(self, target, width, height):
