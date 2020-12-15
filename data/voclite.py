@@ -19,7 +19,7 @@ else:
 
 VOCLITE_CLASSES = (  # always index 0
     'motorbike', 'bicycle', 'seat', 'table', 'parking lot', 'key', 'book', 'package', 'children', 'bottle', 'person', 'shoe')
-# total of 12 classes
+# total of 13 classes
 # note: if you used our download scripts, this should be right
 VOCLITE_ROOT = osp.join(HOME, "data/voclite/")
 
