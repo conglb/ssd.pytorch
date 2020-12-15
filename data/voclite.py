@@ -92,7 +92,7 @@ class VOCLite(data.Dataset):
 
     def __init__(self, root,
                  image_sets=['voclite'],
-                 transform=None, target_transform=VOCAnnotationTransform(),
+                 transform=None, target_transform=VOCLiteAnnotationTransform(),
                  dataset_name='voclite'):
         self.root = root
         self.image_set = image_sets
